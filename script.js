@@ -1,19 +1,26 @@
 document.addEventListener("DOMContentLoaded", () => {
     setInterval(updateClock, 1000);
-    updateClock(); 
+    updateClock();
 
     document.getElementById("set-alarm-btn").addEventListener("click", setAlarm);
     document.getElementById("theme-select").addEventListener("change", changeTheme);
     document.getElementById("start-countdown").addEventListener("click", startCountdown);
+    document.getElementById("start-stopwatch").addEventListener("click", startStopwatch);
+    document.getElementById("stop-stopwatch").addEventListener("click", stopStopwatch);
+    document.getElementById("reset-stopwatch").addEventListener("click", resetStopwatch);
 });
 
 let alarms = [];
+let countdownInterval;
+let stopwatchInterval;
+let stopwatchTime = 0;
+let running = false;
 
 function updateClock() {
     const now = new Date();
     const clock = document.getElementById("clock");
     const date = document.getElementById("date");
-    
+
     let hours = now.getHours();
     const minutes = now.getMinutes().toString().padStart(2, '0');
     const seconds = now.getSeconds().toString().padStart(2, '0');
@@ -22,7 +29,7 @@ function updateClock() {
     hours = hours % 12 || 12;
     const displayHours = hours.toString().padStart(2, '0');
 
-    clock.innerHTML = `${displayHours}<span class="blinking-colon">:</span>${minutes}<span class="blinking-colon">:</span>${seconds} ${ampm}`;
+    clock.innerHTML = `${displayHours}:${minutes}:${seconds} ${ampm}`;
     date.textContent = now.toLocaleDateString();
 
     checkAlarm(displayHours, minutes, ampm);
@@ -47,7 +54,7 @@ function setAlarm() {
     }
 
     const alarmTime = `${hours.toString().padStart(2, '0')}:${minutes} ${ampm}`;
-    
+
     if (!alarms.includes(alarmTime)) {
         alarms.push(alarmTime);
         updateAlarmList();
@@ -80,28 +87,33 @@ function checkAlarm(hours, minutes, ampm) {
 }
 
 function triggerAlarm() {
+    let alarmRinging = true;
     alert("⏰ Alarm is ringing!");
     document.body.classList.add("alarm-alert");
-    setTimeout(() => {
-        document.body.classList.remove("alarm-alert");
-    }, 5000);
-}
 
-function changeTheme() {
-    document.body.className = document.getElementById("theme-select").value;
+    setTimeout(() => {
+        if (alarmRinging) {
+            document.body.classList.remove("alarm-alert");
+        }
+    }, 5000);
 }
 
 function startCountdown() {
     const minutes = parseInt(document.getElementById("countdown-minutes").value) || 0;
     const seconds = parseInt(document.getElementById("countdown-seconds").value) || 0;
     const totalSeconds = minutes * 60 + seconds;
-    const progressBar = document.getElementById("countdown-progress");
     const display = document.getElementById("countdown-display");
+    const progressBar = document.getElementById("countdown-progress");
 
+    if (totalSeconds <= 0) {
+        alert("Enter a valid countdown time.");
+        return;
+    }
+
+    clearInterval(countdownInterval); 
     let remainingTime = totalSeconds;
-    display.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
-    const countdownInterval = setInterval(() => {
+    countdownInterval = setInterval(() => {
         const mins = Math.floor(remainingTime / 60);
         const secs = remainingTime % 60;
 
@@ -115,10 +127,47 @@ function startCountdown() {
 
         if (remainingTime <= 0) {
             clearInterval(countdownInterval);
-            display.textContent = "Time's up!";
+            display.textContent = "⏳ Time's Up!";
             if (progressBar) progressBar.style.width = "0%";
+            alert("⏳ Countdown Complete!");
         }
 
         remainingTime--;
     }, 1000);
+}
+
+function startStopwatch() {
+    if (!running) {
+        running = true;
+        const startTime = Date.now() - stopwatchTime;
+        stopwatchInterval = setInterval(() => {
+            stopwatchTime = Date.now() - startTime;
+            updateStopwatchDisplay();
+        }, 10);
+    }
+}
+
+function stopStopwatch() {
+    running = false;
+    clearInterval(stopwatchInterval);
+}
+
+function resetStopwatch() {
+    running = false;
+    clearInterval(stopwatchInterval);
+    stopwatchTime = 0;
+    updateStopwatchDisplay();
+}
+
+function updateStopwatchDisplay() {
+    const display = document.getElementById("stopwatch-display");
+    const milliseconds = (stopwatchTime % 1000).toString().padStart(3, '0');
+    const seconds = Math.floor((stopwatchTime / 1000) % 60).toString().padStart(2, '0');
+    const minutes = Math.floor((stopwatchTime / (1000 * 60)) % 60).toString().padStart(2, '0');
+    const hours = Math.floor(stopwatchTime / (1000 * 60 * 60)).toString().padStart(2, '0');
+    display.textContent = `${hours}:${minutes}:${seconds}.${milliseconds}`;
+}
+
+function changeTheme() {
+    document.body.className = document.getElementById("theme-select").value;
 }
