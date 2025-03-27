@@ -3,25 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digital Clock with Alarm & Countdown</title>
+    <title>Clock, Alarm, Countdown & Stopwatch</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="light">
     <div class="clock-container">
         <div class="clock-wrapper">
             <div id="clock" class="clock">00:00:00 AM</div>
-            <div id="date" class="date"></div>
-        </div>
-
-        <div class="theme-switcher">
-            <select id="theme-select">
-                <option value="light">Light Theme</option>
-                <option value="dark">Dark Theme</option>
-                <option value="neon">Neon Theme</option>
-            </select>
+            <div id="date" class="date">Loading...</div>
         </div>
 
         <div class="controls">
+
+            
             <div class="alarm-section">
                 <h3>Set Alarm</h3>
                 <input type="time" id="alarm-input">
@@ -31,13 +25,27 @@
 
             <div class="countdown-section">
                 <h3>Countdown Timer</h3>
-                <input type="number" id="countdown-minutes" placeholder="Minutes" min="0">
-                <input type="number" id="countdown-seconds" placeholder="Seconds" min="0" max="59">
+                <input type="number" id="countdown-minutes" placeholder="Minutes">
+                <input type="number" id="countdown-seconds" placeholder="Seconds">
                 <button id="start-countdown">Start Countdown</button>
-                <div id="countdown-display"></div>
+                <div id="countdown-display">00:00</div>
                 <div id="countdown-progress"></div>
             </div>
+
+            <div class="stopwatch-section">
+                <h3>Stopwatch</h3>
+                <div id="stopwatch-display">00:00:00.000</div>
+                <button id="start-stopwatch">Start</button>
+                <button id="stop-stopwatch">Stop</button>
+                <button id="reset-stopwatch">Reset</button>
+            </div>
         </div>
+
+        <select id="theme-select">
+            <option value="light">Light Theme</option>
+            <option value="dark">Dark Theme</option>
+            <option value="neon">Neon Theme</option>
+        </select>
     </div>
 
     <script src="script.js"></script>
