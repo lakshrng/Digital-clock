@@ -1,0 +1,236 @@
+:root {
+    --bg-light: #f0f4f8;
+    --bg-dark: #1a202c;
+    --bg-neon: #000033;
+    --text-light: #2d3748;
+    --text-dark: #e2e8f0;
+    --text-neon: #22caca;
+    --primary-color: #3182ce;
+    --neon-primary: #0ff;
+    --accent-color: #38b2ac;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-light);
+    transition: all 0.3s ease;
+}
+
+.clock-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    max-width: 800px;
+    width: 95%;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px var(--shadow-color);
+    padding: 30px;
+    text-align: center;
+}
+
+.clock-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.clock {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #f6f8f9 0%, #e5ebee 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 
+        inset 0 -5px 10px rgba(0,0,0,0.1),
+        0 10px 20px rgba(0,0,0,0.1);
+    position: relative;
+    font-size: 3rem;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.date {
+    position: absolute;
+    bottom: -30px;
+    font-size: 1rem;
+    opacity: 0.7;
+}
+
+.controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.alarm-section, 
+.countdown-section {
+    background-color: #f7fafc;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 6px var(--shadow-color);
+}
+
+.alarm-section h3, 
+.countdown-section h3 {
+    margin-bottom: 15px;
+}
+
+input, button, select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+input:focus, 
+button:focus, 
+select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.2);
+}
+
+button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+button:hover {
+    background-color: #2c5282;
+}
+
+/* I did light thememe here for clarity */
+body.light {
+    background-color: var(--bg-light);
+    color: var(--text-light);
+}
+
+body.light .clock-container {
+    background-color: white;
+}
+
+body.light .clock {
+    background: linear-gradient(135deg, #f6f8f9 0%, #e5ebee 100%);
+    color: var(--primary-color);
+}
+
+body.light .date {
+    color: var(--text-light);
+}
+
+/*I did dark thememe here for clarity*/
+body.dark {
+    background-color: var(--bg-dark);
+    color: var(--text-dark);
+}
+
+body.dark .clock-container {
+    background-color: #66799b;
+}
+
+body.dark .clock {
+    background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+    color: var(--text-dark);
+}
+
+body.dark .date {
+    color: var(--text-dark);
+}
+
+body.dark input, 
+body.dark button, 
+body.dark select {
+    background-color: #4a5568;
+    color: var(--text-dark);
+    border-color: #718096;
+}
+
+/* I did neon thememe here for clarity*/
+body.neon {
+    background-color: var(--bg-neon);
+    color: var(--text-neon);
+}
+
+body.neon .clock-container {
+    background-color: #00002a;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+}
+
+body.neon .clock {
+    background: radial-gradient(circle, #000044, #000022);
+    color: var(--text-neon);
+    box-shadow: 
+        0 0 10px var(--neon-primary),
+        inset 0 0 10px var(--neon-primary);
+}
+
+body.neon .date {
+    color: var(--text-neon);
+    text-shadow: 0 0 5px var(--neon-primary);
+}
+
+body.neon input, 
+body.neon button, 
+body.neon select {
+    background-color: #000044;
+    color: var(--text-neon);
+    border-color: var(--neon-primary);
+    box-shadow: 0 0 5px var(--neon-primary);
+}
+
+body.neon button {
+    background-color: #000066;
+}
+
+body.neon button:hover {
+    background-color: #0000AA;
+}
+
+/* Animations */
+.blinking-colon {
+    animation: blink 1s infinite;
+    margin: 0 5px;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+.alarm-alert {
+    animation: shake 0.5s;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+@media (max-width: 768px) {
+    .controls {
+        grid-template-columns: 1fr;
+    }
+
+    .clock {
+        width: 250px;
+        height: 250px;
+        font-size: 2.5rem;
+    }
+}

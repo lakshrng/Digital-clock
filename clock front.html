@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Clock with Alarm & Countdown</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="clock-container">
+        <div class="clock-wrapper">
+            <div id="clock" class="clock">00:00:00 AM</div>
+            <div id="date" class="date"></div>
+        </div>
+
+        <div class="theme-switcher">
+            <select id="theme-select">
+                <option value="light">Light Theme</option>
+                <option value="dark">Dark Theme</option>
+                <option value="neon">Neon Theme</option>
+            </select>
+        </div>
+
+        <div class="controls">
+            <div class="alarm-section">
+                <h3>Set Alarm</h3>
+                <input type="time" id="alarm-input">
+                <button id="set-alarm-btn">Set Alarm</button>
+                <div id="alarm-list"></div>
+            </div>
+
+            <div class="countdown-section">
+                <h3>Countdown Timer</h3>
+                <input type="number" id="countdown-minutes" placeholder="Minutes" min="0">
+                <input type="number" id="countdown-seconds" placeholder="Seconds" min="0" max="59">
+                <button id="start-countdown">Start Countdown</button>
+                <div id="countdown-display"></div>
+                <div id="countdown-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
